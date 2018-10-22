@@ -86,9 +86,14 @@ for(i in 1:Num_of_ts){
 theta_forecast=matrix(NA, nrow = forecast_horizon, ncol = Num_of_ts)
 theta_fit=matrix(NA, nrow = train_lentgh, ncol = Num_of_ts)
 for(i in 1:Num_of_ts){
-  q=forecast(thetaf(train_ts[,i]), h = forecast_horizon)
-  theta_forecast[,i]<-q$mean
-  theta_fit[,i]<-q$fitted
+  
+  for(t in 1:forecast_horizon){
+    train <- df[1:((train_lentgh-1)+t),]
+    train_ts <- ts(train, frequency = freq)
+    q=forecast(thetaf(train_ts[,i]), h = 1) # h=1: forecast the next 1 month
+    theta_forecast[t,i] <- (q$mean)
+    # TODO: Store q$fitted
+  }  
 }
 
 #out of sample MSEs
@@ -143,9 +148,15 @@ for(i in 1:Num_of_ts){
 theta_forecast2=matrix(NA, nrow = forecast_horizon, ncol = Num_of_ts)
 theta_fit2=matrix(NA, nrow = train_lentgh, ncol = Num_of_ts)
 for(i in 1:Num_of_ts){
-  q=forecast(thetaf(train2_ts[,i]), h = forecast_horizon)
-  theta_forecast2[,i]<-q$mean
-  theta_fit2[,i]<-q$fitted
+  
+  for(t in 1:forecast_horizon){
+    train2 <- df[1:((train_lentgh-1)+t),]
+    train2_ts <- ts(train2, frequency = freq)
+    q=forecast(thetaf(train2_ts[,i]), h = 1) # h=1: forecast the next 1 month
+    theta_forecast2[t,i] <- (q$mean)
+    # TODO: Store q$fitted
+  }
+  
 }
 
 #out of sample MSEs
