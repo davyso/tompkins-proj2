@@ -1,0 +1,2 @@
+- vlaidation set: growing train to forcast t=25, train on 1-24, for t=36, train on 1-35
+- instaed of split on 1-24,25-36, parametize the splits via ratio
