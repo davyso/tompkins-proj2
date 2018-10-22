@@ -17,7 +17,7 @@ ma_order=3
 
 
 #Reading in the input data
-df=read.csv(file="~/Desktop/Reconciliation/reconcile_skus.csv",sep=",", header=TRUE,stringsAsFactors=FALSE )
+df=read.csv(file="~/../Desktop/tompkins-proj2/reconcile_skus.csv",sep=",", header=TRUE,stringsAsFactors=FALSE )
 Num_of_ts=ncol(df)
 ts_length=36
 train_lentgh=24
