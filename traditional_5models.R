@@ -4,6 +4,7 @@ library(MAPA)
 library(hts)
 library(TStools)
 library(devtools)
+library(TTR)
 
 #clearing the variable lists
 rm(list=ls())
@@ -68,18 +69,30 @@ for(i in 1:Num_of_ts){
 arima_aic_forecast=matrix(NA, nrow = forecast_horizon, ncol = Num_of_ts)
 arima_aic_fit=matrix(NA, nrow = train_lentgh, ncol = Num_of_ts)
 for(i in 1:Num_of_ts){
-  q=forecast(ets(train_ts[,i]), h = forecast_horizon)
-  arima_aic_forecast[,i]<-q$mean
-  arima_aic_fit[,i]<-q$fitted
+
+  for(t in 1:forecast_horizon) {
+    train <- df[1:((train_lentgh-1)+t),]
+    train_ts <- ts(train, frequency = freq)
+    q=forecast(ets(train_ts[,i]), h = 1)
+    arima_aic_forecast[t,i]<-q$mean
+    # TODO: Store q$fitted
+  }
+  
 }
 
 #Auto_arima forecasting with aic as informaction criteria
 arima_bic_forecast=matrix(NA, nrow = forecast_horizon, ncol = Num_of_ts)
 arima_bic_fit=matrix(NA, nrow = train_lentgh, ncol = Num_of_ts)
 for(i in 1:Num_of_ts){
-  q=forecast(auto.arima(train_ts[,i],ic = c("aic")), h = forecast_horizon)
-  arima_bic_forecast[,i]<-q$mean
-  arima_bic_fit[,i]<-q$fitted
+  
+  for(t in 1:forecast_horizon) {
+    train <- df[1:((train_lentgh-1)+t),]
+    train_ts <- ts(train, frequency = freq)
+    q=forecast(auto.arima(train_ts[,i],ic = c("aic")), h = 1)
+    arima_bic_forecast[t,i]<-q$mean
+    # TODO: Store q$fitted
+    
+  }
 }
 
 #Theta forecasting
@@ -130,18 +143,30 @@ test2_ts<-ts(test2,frequency=freq)
 arima_aic_forecast2=matrix(NA, nrow = forecast_horizon, ncol = Num_of_ts)
 arima_aic_fit2=matrix(NA, nrow = train_lentgh, ncol = Num_of_ts)
 for(i in 1:Num_of_ts){
-  q=forecast(ets(train2_ts[,i]), h = forecast_horizon)
-  arima_aic_forecast2[,i]<-q$mean
-  arima_aic_fit2[,i]<-q$fitted
+
+  for(t in 1:forecast_horizon) {
+    train2 <- df[1:((train_lentgh-1)+t),]
+    train2_ts <- ts(train2, frequency = freq)
+    q=forecast(ets(train2_ts[,i]), h = 1)
+    arima_aic_forecast2[t,i]<-q$mean
+    # TODO: Store q$fitted
+  }
+  
 }
 
 #Auto_arima forecasting with aic as informaction criteria
 arima_bic_forecast2=matrix(NA, nrow = forecast_horizon, ncol = Num_of_ts)
 arima_bic_fit2=matrix(NA, nrow = train_lentgh, ncol = Num_of_ts)
 for(i in 1:Num_of_ts){
-  q=forecast(auto.arima(train2_ts[,i],ic = c("bic")), h = forecast_horizon)
-  arima_bic_forecast2[,i]<-q$mean
-  arima_bic_fit2[,i]<-q$fitted
+
+  for(t in 1:forecast_horizon) {
+    train2 <- df[1:((train_lentgh-1)+t),]
+    train2_ts <- ts(train2, frequency = freq)
+    q=forecast(auto.arima(train2_ts[,i],ic = c("bic")), h = 1)
+    arima_bic_forecast2[t,i]<-q$mean
+    # TODO: Store q$fitted
+  }
+
 }
 
 #Theta forecasting
